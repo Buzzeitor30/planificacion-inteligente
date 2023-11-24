@@ -1,0 +1,64 @@
+?c -> caja
+?p -> pallet
+?q -> posición en la cinta
+?g -> grua
+?m -> muelle
+___________________________________________________________________________________________
+CARACTERÍSTICAS
+-----------------------------------------------------------------
+clear(?m) : el muelle ?m puede usarse
+	iff 	forall ?p AND(at(?p, ?m) ^ ¬clear(?p)
+-----------------------------------------------------------------
+clear(?p) : el pallet ?p puede usarse
+	iff	size(?p) < maxsize
+
+at (?p, ?m) : el pallet ?p está en el muelle ?m
+-----------------------------------------------------------------
+top(?c) : la caja ?c puede agarrarse
+
+clear(?c) : podemos dejar una caja sobre la caja ?c
+
+target(?c) : la caja ?c es una caja objetivo
+
+at(?c, ?m/q/g) : la caja ?c está en el muelle, posición de cinta o grúa ?m/q/g
+
+on(?c, ?c/p) : la caja ?c está sobre la caja o pallet ?c/p
+-----------------------------------------------------------------
+clear(?g) : la grua ?g está vacía
+
+at(?g, ?m/q) : la grúa ?g está sobre el muelle o posición de cinta ?q
+
+link(?g, ?m, ?q) : la grúa ?g se puede mover entre el muelle ?m y la posición de cinta ?q
+-------------------------------------------------------------------
+clear(?q) : la posición de la cinta está vacía
+
+link(?q1, ?q2) : las cajas que dejemos en la posición ?q1 se desplazarán a ?q2 cuando lo ordenemos
+________________________________________________________________________________________________
+OPERACIONES
+--------------------------------------------------------------------
+catch(?c1, ?g, ?m/q, ?c2) : la grúa ?g cogerá la caja ?c1 situada en el muelle o posición de cinta ?m/q
+
+	iff	clear(?g) ^ top(?c1) ^ at(?g, ?m/q) ^ at(?c1, ?m/q) ^ on(?c1, ?c2)
+	-->	¬clear(?g) ^ ¬top(?c1) ^ ¬clear(?c1) ^ at(?c1, ?g) ^ top(?c2) ^ ¬on(?c1, ?c2) ^ clear(?c2)
+
+release_docks(?c1, ?g, ?m, ?c2) : la grúa ?g soltará la caja ?c1 sobre la caja ?c2 en el muelle ?m
+
+	iff	at(?c1, ?g) ^ at(?g, ?m) ^ at(?c2, ?m) ^ clear(?c2)
+	-->	at(?c1, ?m) ^ top(?c1) ^ ¿clear(?c1)? ^ clear(?g) ^ ¬clear(?c2) ^ ¬top(?c2) 
+
+release_queue(?c1, ?g, ?q) : la grúa ?g soltará la caja ?c1 sobre la posición de cinta ?q
+
+	iff	at(?c1, ?g) ^ at(?g, ?q) ^ clear(?q)
+	-->	at(?c1, ?q) ^ top(?c1) ^ ¬clear(?c1) ^ clear(?g) ^ ¬clear(q)
+--------------------------------------------------------------------
+move(?g, ?m/q1, ?m/q2) : movemos la grúa ?g del muelle o posición de cinta ?m/q1 al muelle o posición de cinta ?m/q2
+
+	iff	link(?g, ?m/q1, ?m/q2) ^ at(?g, ?m/q1)
+	-->	at(?g, ?m/q2) ^ ¬at(?g, ?m/q1)
+
+transport(?c, ?q1, ?q2) : movemos la caja ?c de la posición de cinta ?q1 a la posición de cinta ?q2
+
+	iff	link(?q1, ?q2) ^ at(?c, ?q1) ^ clear(?q2)
+	-->	at(?c, ?q2) ^ clear(?q1) ^ ¬clear(?q2)
+	
+	
