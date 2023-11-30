@@ -1,0 +1,14 @@
+
+; Version LPG-td-1.0
+; Seed 89130357
+; Command line: ./lpg-td-1.0 -o port.pddl -f problem4.pddl -n 1 
+; Problem problem4.pddl
+; Actions having STRIPS duration
+; Time -8.98
+; Search time 0.00
+; Parsing time 8.98
+; Mutex time 0.00
+; NrActions 0
+
+
+no solution

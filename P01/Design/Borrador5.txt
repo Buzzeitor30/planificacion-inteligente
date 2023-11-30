@@ -1,0 +1,88 @@
+Consideramos a la grúa como una posición de cinta. 
+
+?c -> caja/pallet
+?m -> muelle, grúa o posición en la cinta. Para poder apañarlo, situamos un pallet sobre la cinta de forma que lo de abajo sirva. 
+?n -> altura
+___________________________________________________________________________________________
+CARACTERÍSTICAS
+-----------------------------------------------------------------
+clear(?m) : el muelle ?m puede usarse
+	iff 	forall ?p at(?p, ?m) : ¬clear(?p)
+
+link(?m1, ?m2) : las cajas que dejemos en la posición ?q1 se desplazarán a ?q2 cuando lo ordenemos. Opcional. Los muelles no tienen esta opción. 
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+top(?c) : la caja ?c puede agarrarse 
+
+movable(?c): se puede mover solo las cajas, no los pallets
+
+clear(?c) : podemos dejar una caja sobre la caja ?c
+
+target(?c) : la caja ?c es una caja objetivo
+
+at(?c, ?m) : la caja ?c está en el muelle, posición de cinta o grúa ?m/g
+
+on(?c, ?c/p) : la caja ?c está sobre la caja o pallet ?c/p
+
+ready(?c) : la caja ?c está lista para entregar
+________________________________________________________________________________________________
+OPERACIONES
+--------------------------------------------------------------------
+move(?c, ?m1, ?m2, ?c/p1, ?c/p2, ?n1, ?n2) : Movemos la caja ?c de encima de la caja o pallet ?c/p1 en el muelle ?m1 a encima de la caja o pallet ?c/p2 en el muelle ?m2
+
+	iff	movable(?c) ^ top(?c) ^ at(?c, ?m1) ^ on(?c, ?c/p1) ^ link(?m1, ?m2) ^ ^ top(?c/p) ^ altura(?c/p, ?n) ^ ¬max_altura(?m, ?n) ^ sucesor(?n1, ?n2) ^ at(?c/p2, ?m2)
+	--> 	top(?c) ^ at(?c, ?m2) ^ on(?c, ?c/p2) ^ ¬on(?c, ?c/p1) ^ clear(?c/p1) ^ top(?c/p1)
+
+
+-------------------------------------------------------------------
+
+move(?c, ?m1, ?m2, ?c/p1, ?c/p2, ?n1, ?n2) : Movemos la caja ?c de encima de la caja o pallet ?c/p1 en el muelle ?m1 a encima de la caja o pallet ?c/p2 en el muelle ?m2
+
+	iff	top(?c) ^ at(?c, ?m1) ^ on(?c, ?c/p1) ^ link(?m1, ?m2) ^ ^ top(?c/p) ^ altura(?c/p, ?n) ^ ¬max_altura(?m, ?n) ^ sucesor(?n1, ?n2) ^ at(?c/p2, ?m2)
+	--> 	top(?c) ^ at(?c, ?m2) ^ on(?c, ?c/p2) ^ ¬on(?c, ?c/p1) ^ clear(?c/p1) ^ top(?c/p1) ^ ¬ready(?c)
+
+
+ready_on_top(?c1, ?m) : 
+	iff	at(?c, m1) ^ target(?c1) ^ top(?c)
+	-->	ready(?c)
+
+ready_for_deliver (?c1, ?c2, ?m) :
+	iff	at(?c1, m1) ^ target(?c1) ^ on(?c2, ?c1) ^ ready(?c2)
+	-->	ready(?c1)
+
+unready_for_deliver (?c1, ?c2) :
+	iff	
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------
+catch(?c1, ?g, ?m, ?c2) : la grúa ?g cogerá la caja ?c1 situada en el muelle o posición de cinta ?m
+
+	iff	clear(?g) ^ top(?c1) ^ at(?g, ?m) ^ at(?c1, ?m) ^ on(?c1, ?c2)
+	-->	¬clear(?g) ^ ¬top(?c1) ^ ¬clear(?c1) ^ at(?c1, ?g) ^ top(?c2) ^ ¬on(?c1, ?c2)
+
+release(?c1, ?g, ?m, ?c/p) : la grúa ?g soltará la caja ?c1 sobre la caja o pallet ?c/p en el muelle ?m
+
+	iff	at(?c1, ?g) ^ at(?g, ?m) ^ at(?c/p, ?m) ^ clear(?c/p)
+	-->	at(?c1, ?m) ^ top(?c1) ^ ¿clear(?c1)? ^ clear(?g) ^ ¬clear(?c/p) ^ ¬top(?c/p) 
+--------------------------------------------------------------------
+move(?g, ?m1, ?m2) : movemos la grúa ?g del muelle o posición de cinta ?m1 al muelle o posición de cinta ?m2
+
+	iff	link(?g, ?m1, ?m2) ^ at(?g, ?m1)
+	-->	at(?g, ?m2) ^ ¬at(?g, ?m1)
+
+transport(?c, ?m1, ?m2) : movemos la caja ?c de la posición de cinta ?m1 a la posición de cinta ?m2
+
+	iff	link(?m1, ?m2) ^ at(?c, ?m1) ^ clear(?m2)
+	-->	at(?c, ?m2) ^ clear(?m1) ^ ¬clear(?m2)
+	
+	

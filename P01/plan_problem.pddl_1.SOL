@@ -1,0 +1,14 @@
+
+; Version LPG-td-1.0
+; Seed 82979589
+; Command line: ./lpg-td-1.0 -o port.pddl -f problem.pddl -n 1 
+; Problem problem.pddl
+; Actions having STRIPS duration
+; Time 0.00
+; Search time 0.00
+; Parsing time 0.00
+; Mutex time 0.00
+; NrActions 2
+
+0:   (MOVE BOX1 DOCK1 CRANE PALLET1 CRANE N0 N1 N1) [1]
+1:   (MOVE BOX1 CRANE DOCK1 CRANE BOX2 N1 N2 N1) [1]
