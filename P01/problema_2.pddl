@@ -5,7 +5,6 @@ cr cr2 - crane
 p1 p2 p3 p4 p5 p6 - pallet
 d1 d2 - dock
 c c2 - conveyor
-h0 h1 h2 h3 - height
 )
 
 (:init
@@ -21,32 +20,6 @@ h0 h1 h2 h3 - height
 (at b3 d2)
 (at b2 d2)
 (at b6 d2)
-;alturas
-(next h0 h1)
-(next h1 h2)
-(next h2 h3)
-;docks
-(max_dock_height h3 d1)
-(max_dock_height h3 d2)
-;pallets
-(box_height h0 p1)
-(box_height h0 p2)
-(box_height h0 p3)
-(box_height h0 p4)
-(box_height h0 p5)
-(box_height h0 p6)
-;cajas
-(box_height h1 b1)
-(box_height h3 b2)
-(box_height h2 b3)
-(box_height h1 b4)
-(box_height h1 b5)
-(box_height h1 b6)
-(box_height h2 b7)
-(box_height h2 b8)
-(box_height h1 b9)
-(box_height h2 b10)
-(box_height h1 b11)
 ;donde estan los pallets
 (at p1 d1)
 (at p2 d1)

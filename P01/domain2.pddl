@@ -17,9 +17,9 @@ box crane pallet dock conveyor height - object
 (destiny ?c - conveyor ?d - dock)
 (isgreen ?b - (either pallet box))
 (ready ?b - (either box pallet) ?d - dock)
-(max_dock_height ?h - height ?d - dock)
 (next ?h_prev - height ?h_next - height)
 (box_height ?h - height ?b - (either box pallet))
+(max_height ?h - height ?d - dock)
 )
 
 (:action unstack
@@ -48,23 +48,22 @@ box crane pallet dock conveyor height - object
                         (clear ?b2) ;nada encima de b2 
                         (at ?c ?d) ;crane  en el mismo dock que b2
                         (at ?b2 ?d)
-                        (isgreen ?b1) ;b1 es caja green para delivery
-                        (isgreen ?b2) ;b2 es caja green para delivery
-                        (not (and
-                            (not (isgreen ?b1)) ;la caja de abajo no es verde
-                            (isgreen ?b2) 
-                        ))
+                        (or 
+                        (isgreen ?b1)
+                        (not (isgreen ?b2))
+                        )
                         (box_height ?hb2 ?b2)
                         (next ?hb2 ?hnext)
-                        (not (max_dock_height ?hb2 ?d))
+                        (not (max_height ?hb2 ?d))
+
     )
     :effect (and    (not (on ?b1 ?c)) ;b1 no está en el crane ya
                     (not (clear ?b2)) ;b2 tiene cosas encima ahora
                     (on ?b1 ?b2) ;b1 encima de b2
                     (clear ?c) ;crane vacío
                     (clear ?b1) ;b1 no tiene nada encima
-                    (ready ?b1 ?d) ;b1 está ready (no borramos b2)
-                    (box_height ?hnext ?b1)
+                    (ready ?b1 ?d)
+                    (box_height ?hnext ?b1) ;b1 está ready (no borramos b2)
                     )
 )
 
@@ -79,7 +78,7 @@ box crane pallet dock conveyor height - object
                         (isgreen ?b2)
                         (box_height ?hb2 ?b2)
                         (next ?hb2 ?hnext)
-                        (not (max_dock_height ?hb2 ?d)) 
+                        (not (max_height ?hb2 ?d))
     )
     :effect (and    (not (on ?b1 ?c)) ;b1 no está en el crane ya
                     (not (clear ?b2)) ;b2 tiene cosas encima ahora
@@ -87,8 +86,8 @@ box crane pallet dock conveyor height - object
                     (on ?b1 ?b2) ;b1 encima de b2
                     (clear ?c) ;crane vacío
                     (clear ?b1) ;b1 no tiene nada encima
-                    (ready ?b1 ?d) ;b1 está ready (no borramos b2)
-                    (box_height ?hnext ?b1)
+                    (ready ?b1 ?d)
+                    (box_height ?hnext ?b1) ;b1 está ready (no borramos b2)
                     )
 )
 
