@@ -53,7 +53,7 @@ box height - object
     )
 )
 
-(:action move-extra
+(:action move_extra
     :parameters (?c - box ?d_org - box ?d_dst - box  ?c_org - box ?c_dst - box ?h_prev - height ?h_next - height ?h_box - height    )
     :precondition (and
     (not (green ?c))

@@ -1,26 +1,18 @@
 (define (problem prueba_de_fuego_3) 
 (:domain port)
 (:objects
-box1 box2 box3 box4 box5 dock1 dock2 pallet1 pallet2 crane1 crane2 poscinta11 poscinta12 poscinta21 poscinta22 - box
+box1 box2 dock1 dock2 pallet1 pallet2 crane1 crane2 poscinta11 poscinta12 poscinta21 poscinta22 - box
 n0 n1 n2 n3 - height
 )
 
 (:init
     ;todo: put the initial state's facts and numeric values here
-    (green box2)
+    (green box1)
     (ready box1 dock1)
-    (ready box2 dock1)
-    (green box4)
-    (ready box3 dock2)
-    (ready box4 dock2)
-    (ready box5 dock2)
-    (movable box1)
+    (ready box2 dock2)
     (movable box2)
-    (movable box3)
-    (movable box4)
-    (movable box5)
     (top box1)
-    (top box5)
+    (top box2)
     (top crane1)
     (top crane2)
     (top poscinta11)
@@ -36,15 +28,9 @@ n0 n1 n2 n3 - height
     (at pallet1 dock1)
     (at pallet2 dock2)
     (at box1 dock1)
-    (at box2 dock1)
-    (at box3 dock2)
-    (at box4 dock2)
-    (at box5 dock2)
-    (on box1 box2)
-    (on box2 pallet1)
-    (on box5 box3)
-    (on box3 box4)
-    (on box4 pallet2)
+    (at box2 dock2)
+    (on box1 pallet1)
+    (on box2 pallet2)
     (next n0 n1)
     (next n1 n2)
     (next n2 n3)
@@ -78,16 +64,12 @@ n0 n1 n2 n3 - height
     (height poscinta12 n0)
     (height poscinta21 n0)
     (height poscinta22 n0)
-    (height box1 n2)
+    (height box1 n1)
     (height box2 n1)
-    (height box3 n2)
-    (height box4 n1)
-    (height box5 n3)
 )
 
 (:goal (and
     (ready box2 dock1)
-    (ready box4 dock1)
 ))
 
 )
