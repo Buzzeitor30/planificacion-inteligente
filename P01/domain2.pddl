@@ -1,9 +1,9 @@
 ;Header and description
 
-(define (domain dominio)
+(define (domain port)
 
 ;remove requirements that are not needed
-(:requirements :strips :fluents :typing :negative-preconditions :disjunctive-preconditions)
+(:requirements :strips :fluents :typing :negative-preconditions)
 
 (:types ;todo: enumerate types and their hierarchy here, e.g. car truck bus - vehicle
 box crane pallet dock conveyor height - object
@@ -42,16 +42,17 @@ box crane pallet dock conveyor height - object
                     )
 )
 
-(:action stack_wg_o_a
+(:action stack_g_o_a
     :parameters (?b1 - box ?b2 - (either box pallet) ?c - crane ?d - dock ?hb2 - height ?hnext - height)
     :precondition (and  (on ?b1 ?c) ;caja sujeta por la grua
                         (clear ?b2) ;nada encima de b2 
                         (at ?c ?d) ;crane  en el mismo dock que b2
                         (at ?b2 ?d)
-                        (or 
                         (isgreen ?b1)
-                        (not (isgreen ?b2))
-                        )
+                        ;(or 
+                        ;(isgreen ?b1)
+                        ;(not (isgreen ?b2))
+                        ;)
                         (box_height ?hb2 ?b2)
                         (next ?hb2 ?hnext)
                         (not (max_height ?hb2 ?d))
@@ -68,14 +69,13 @@ box crane pallet dock conveyor height - object
 )
 
 
-(:action stack_w_o_g
-    :parameters (?b1 - box ?b2 - box ?c - crane ?d - dock ?hb2 - height ?hnext - height)
+(:action stack_w_o_a
+    :parameters (?b1 - box ?b2 - (either box pallet) ?c - crane ?d - dock ?hb2 - height ?hnext - height)
     :precondition (and  (on ?b1 ?c) ;caja sujeta por la grua
                         (clear ?b2) ;nada encima de b2 
                         (at ?c ?d) ;crane  en el mismo dock que b2
                         (at ?b2 ?d)
                         (not (isgreen ?b1)) ;la caja de abajo no es verde
-                        (isgreen ?b2)
                         (box_height ?hb2 ?b2)
                         (next ?hb2 ?hnext)
                         (not (max_height ?hb2 ?d))
